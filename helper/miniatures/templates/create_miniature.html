@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_content %}
+<div class="container mt-4">
+    <h2 class="mb-3">Миниатюрки</h2>
+
+    <div class="d-flex">
+        <div class="me-4">
+            <label for="sizeSelect" class="form-label">Выберите размер модели:</label>
+            <select id="sizeSelect" class="form-select mb-3" onchange="updateGrid()">
+                <option value="small">Маленький</option>
+                <option value="medium">Средний</option>
+                <option value="large">Большой</option>
+                <option value="giant">Гигантский</option>
+            </select>
+
+            <input type="file" id="imageUpload" class="form-control mb-2" accept="image/*" multiple onchange="addImagesToCells()">
+            <label for="colorPicker" class="form-label">Цвет кругов:</label>
+            <input type="color" id="colorPicker" class="form-control mb-2" value="#000000" onchange="updateSideColors()">
+            <button class="btn btn-primary w-100" onclick="exportToPDF()">Экспорт в PDF</button>
+        </div>
+
+        <div id="canvasContainer" class="border" style="width: 210mm; height: 297mm; position: relative; background: white; overflow: hidden;">
+            <div id="topCirclesContainer" class="position-absolute d-flex justify-content-center w-100"></div>
+            <div id="gridContainer" class="position-absolute d-flex flex-column align-items-center justify-content-center w-100 h-100">
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="{% static 'js/create_miniatures.js' %}"></script>
+
+<style>
+    .image-cell {
+        border: 1px solid black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .image-cell img {
+        width: auto;
+        object-fit: cover;
+        object-position: center;
+    }
+    .side-semi-circle {
+        border-radius: 100px 100px 0 0;
+        background-color: black;
+        margin: 0 3px;
+        top: 0;
+    }
+    .left {
+        border-radius: 100px 0 0 100px;
+    }
+    .right {
+        border-radius: 0 100px 100px 0;
+    }
+    .circle {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: black;
+        margin: 5px;
+    }
+
+    .rotate-right {
+        transform: rotate(90deg);
+
+    }
+    .rotate-left {
+        transform: rotate(-90deg) scaleX(-1);
+    }
+
+</style>
+{% endblock %}
