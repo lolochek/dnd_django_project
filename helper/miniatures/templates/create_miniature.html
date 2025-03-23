@@ -18,7 +18,7 @@
             <input type="file" id="imageUpload" class="form-control mb-2" accept="image/*" multiple onchange="addImagesToCells()">
             <label for="colorPicker" class="form-label">Цвет кругов:</label>
             <input type="color" id="colorPicker" class="form-control mb-2" value="#000000" onchange="updateSideColors()">
-            <button class="btn btn-primary w-100" onclick="exportToPDF()">Экспорт в PDF</button>
+            <button  onclick="exportToPDF()">Экспорт в PDF</button>
         </div>
 
         <div id="canvasContainer" class="border" style="width: 210mm; height: 297mm; position: relative; background: white; overflow: hidden;">
@@ -33,6 +33,30 @@
 <script src="{% static 'js/create_miniatures.js' %}"></script>
 
 <style>
+    .container {
+    max-width: 100%;
+    padding: 100px;
+    }
+
+
+    button {
+    font-size: 1rem;
+    padding: 12px;
+    border-radius: 5px;
+    background-color: #6E1D26;
+    color: white;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #5c161e;
+    }
+
+
+
     .image-cell {
         border: 1px solid black;
         display: flex;
@@ -48,9 +72,10 @@
         object-position: center;
     }
     .side-semi-circle {
+        border: 1px solid black;
         border-radius: 100px 100px 0 0;
         background-color: black;
-        margin: 0 3px;
+        margin: 0 1px;
         top: 0;
     }
     .left {
@@ -60,6 +85,7 @@
         border-radius: 0 100px 100px 0;
     }
     .circle {
+        border: 1px solid black;
         width: 20px;
         height: 20px;
         border-radius: 50%;

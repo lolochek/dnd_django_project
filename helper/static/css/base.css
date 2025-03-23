@@ -1,0 +1,132 @@
+body {
+  font-family: 'Trebuchet MS', sans-serif;
+  background-color: #DFDBCF;
+  color: #000000;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #69816B;
+  color: #DFDBCF;
+  text-align: center;
+  padding: 20px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+  transition: transform 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.navbar {
+  background-color: #6E1D26;
+  color: #DFDBCF;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.navbar a {
+  color: #DFDBCF;
+  text-decoration: none;
+  font-weight: bold;
+  position: relative;
+  padding: 0 10px;
+}
+
+.navbar a::after {
+  content: '|';
+  position: absolute;
+  right: -10px;
+  color: rgba(223, 219, 207, 0.5);
+}
+
+.navbar a:last-child::after {
+  content: '';
+}
+
+.navbar a:hover {
+  color: #69816B;
+}
+
+.sidebar {
+  background-color: #69816B;
+  color: #DFDBCF;
+  padding: 15px;
+  width: 20%;
+  float: left;
+  height: 100vh;
+}
+
+.main-content {
+  margin-left: 20%;
+  padding: 20px;
+  background-color: #6E1D26;
+  color: #DFDBCF;
+  min-height: calc(100vh - 100px);
+}
+
+footer {
+  background-color: #000000;
+  color: #DFDBCF;
+  text-align: center;
+  padding: 10px;
+  bottom: 0;
+  width: 100%;
+}
+@keyframes beholder-movement {
+  0% {
+    transform: translateX(100vw);
+    opacity: 1;
+  }
+  90% {
+    transform: translateX(-60px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-60px);
+    opacity: 0;
+  }
+}
+
+.beholder {
+  position: absolute;
+  top: 10%;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  background: url('https://art.pixilart.com/5314a0df47ba957.png') no-repeat center center;
+  background-size: contain;
+  animation: beholder-movement 5s linear infinite;
+}
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background-color: #6E1D26;
+  color: #DFDBCF;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.scroll-to-top:hover {
+  background-color: #69816B;
+}

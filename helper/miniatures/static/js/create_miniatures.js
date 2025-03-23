@@ -1,6 +1,6 @@
  const { jsPDF } = window.jspdf;
 
-    const gridConfig = {
+ const gridConfig = {
     small: { rows: 7, height: 1, width: 1.5 },
     medium: { rows: 5, height: 1.5, width: 2.5 },
     large: { rows: 3, height: 2, width: 4 },
