@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+
+<div class="container mt-4">
+
+        <h1>Вход в систему</h1>
+
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li style="color: red;">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <label for="email">Email:</label>
+            <input type="email" name="email" required>
+            <br>
+
+            <label for="password">Пароль:</label>
+            <input type="password" name="password" required>
+            <br>
+
+            <button type="submit">Войти</button>
+        </form>
+
+        <p>Еще нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a></p>
+</div>
+
+<style>
+    .container {
+    max-width: 100%;
+    padding: 100px;
+    }
+</style>
+
+{% endblock %}

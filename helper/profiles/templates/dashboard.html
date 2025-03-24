@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+
+<div class="container mt-4">
+    <h1>Привет, {{ user.username }}!</h1>
+
+        {% if user.avatar %}
+            <img src="{{ user.avatar.url }}" alt="Аватар" width="150">
+        {% else %}
+            <p>Аватар не загружен</p>
+        {% endif %}
+
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Логин:</strong> {{ user.login }}</p>
+        <p><strong>Описание профиля:</strong> {{ user.profile_description }}</p>
+
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Выйти</button>
+        </form>
+</div>
+
+<style>
+    .container {
+    max-width: 100%;
+    padding: 100px;
+    }
+</style>
+
+{% endblock %}
