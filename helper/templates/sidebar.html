@@ -1,0 +1,31 @@
+<div class="sidebar">
+    <h2 class="sidebar-title">Меню</h2>
+    <ul class="sidebar-list">
+        <li class="sidebar-item">
+            <button class="sidebar-link" onclick="toggleDropdown('dropdown1')">
+                Друзья <span class="arrow">&#9662;</span>
+            </button>
+            <ul id="dropdown1" class="dropdown-list">
+                <li><a href="{% url 'friends_list' %}" class="dropdown-link">Ваши друзья</a></li>
+                <li><a href="{% url 'all_users' %}" class="dropdown-link">Пользователи</a></li>
+            </ul>
+        </li>
+        <li class="sidebar-item">
+            <button class="sidebar-link" onclick="toggleDropdown('dropdown2')">
+                Карточки персонажей <span class="arrow">&#9662;</span>
+            </button>
+            <ul id="dropdown2" class="dropdown-list">
+                <li><a href="#" class="dropdown-link">Галерея карточек</a></li>
+                <li><a href="#" class="dropdown-link">Ваши работы</a></li>
+            </ul>
+        </li>
+        <li class="sidebar-item"><a href="#" class="sidebar-link">Уведомления</a></li>
+    </ul>
+</div>
+
+<script>
+    function toggleDropdown(id) {
+        var dropdown = document.getElementById(id);
+        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    }
+</script>

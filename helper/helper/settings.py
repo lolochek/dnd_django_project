@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'miniatures',
     'handbook',
-    'profiles'
+    'profiles',
+    'friends'
 ]
 
 MIDDLEWARE = [

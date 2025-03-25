@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+
+<div class="container mt-4">
+    <h2>Подтверждение удаления аккаунта</h2>
+
+    <p>Вы уверены, что хотите удалить свой аккаунт? Это действие необратимо.</p>
+
+    <a href="{% url 'delete_profile' %}?confirm_delete=DELETE" class="btn btn-danger">Удалить аккаунт</a>
+
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary">Отменить</a>
+</div>
+
+<style>
+    .container {
+        max-width: 100%;
+        padding: 100px;
+    }
+</style>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+
+<h2>Все пользователи</h2>
+<ul>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    {% for user in users %}
+        <li>
+            <a href="#">{{ user.username }}</a>
+            - <a href="#">Добавить в друзья</a>
+        </li>
+    {% endfor %}
+</ul>
+

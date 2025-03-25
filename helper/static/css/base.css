@@ -4,11 +4,20 @@ body {
   color: #000000;
   margin: 0;
   padding: 0;
+  min-height: 100vh;
+}
+
+.wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
   background-color: #69816B;
   color: #DFDBCF;
+  font-size: 24px;
+  font-weight: bold;
   text-align: center;
   padding: 20px;
   position: absolute;
@@ -41,6 +50,7 @@ header {
   font-weight: bold;
   position: relative;
   padding: 0 10px;
+
 }
 
 .navbar a::after {
@@ -58,20 +68,11 @@ header {
   color: #69816B;
 }
 
-.sidebar {
-  background-color: #69816B;
-  color: #DFDBCF;
-  padding: 15px;
-  width: 20%;
-  float: left;
-  height: 100vh;
-}
 
 .main-content {
   margin-left: 20%;
   padding: 20px;
-  background-color: #6E1D26;
-  color: #DFDBCF;
+  background-color: #DFDBCF;
   min-height: calc(100vh - 100px);
 }
 
@@ -80,9 +81,14 @@ footer {
   color: #DFDBCF;
   text-align: center;
   padding: 10px;
-  bottom: 0;
+
+  margin-top: auto;
   width: 100%;
+  z-index: 0;
+  position: relative;
 }
+
+
 @keyframes beholder-movement {
   0% {
     transform: translateX(100vw);
@@ -130,3 +136,4 @@ footer {
 .scroll-to-top:hover {
   background-color: #69816B;
 }
+

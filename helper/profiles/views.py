@@ -1,8 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+
+from .forms import EditProfileForm
 from .models import User
+
 
 # Create your views here.
 
@@ -53,7 +56,6 @@ def user_login_view(request):
             user = authenticate(request, email=email, password=password)
             if user is not None:
                 login(request, user)
-                messages.success(request, 'Вы успешно вошли!')
                 return redirect('dashboard')
             else:
                 messages.error(request, 'Неверный email или пароль.')
@@ -77,3 +79,44 @@ def user_logout_view(request):
 
 def registration_success(request):
     return render(request, 'registration_success.html')
+
+
+@login_required
+def delete_profile(request):
+    if request.method == 'GET' and request.GET.get('confirm_delete') == 'DELETE':
+        user = request.user
+        user.delete()
+        messages.success(request, 'Ваш аккаунт был удален.')
+        return redirect('login')
+    return render(request, 'confirm_delete.html')
+
+
+
+@login_required
+def edit_profile(request):
+    user = request.user
+
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+        else:
+            messages.error(request, 'Ошибка при обновлении профиля. Проверьте введенные данные.')
+    else:
+        form = EditProfileForm(instance=user)
+
+    return render(request, 'edit_profile.html', {'form': form})
+
+
+
+@login_required
+def all_users(request):
+    users = User.objects.exclude(id=request.user.id)
+    return render(request, 'all_users.html', {'users': users})
+
+@login_required
+def search_users(request):
+    query = request.GET.get('q', '')
+    users = User.objects.filter(username__icontains=query) if query else []
+    return render(request, 'search_results.html', {'users': users, 'query': query})
