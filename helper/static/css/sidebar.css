@@ -74,3 +74,10 @@
     font-size: 20px;
     margin-left: 10px;
 }
+
+.sidebar-link.active {
+    background-color: #6E1D26;
+    color: #DFDBCF;
+}
+
+

@@ -120,3 +120,8 @@ def search_users(request):
     query = request.GET.get('q', '')
     users = User.objects.filter(username__icontains=query) if query else []
     return render(request, 'search_results.html', {'users': users, 'query': query})
+
+@login_required
+def show_user_dashboard(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    return render(request, 'user_dashboard.html', {'user': user})

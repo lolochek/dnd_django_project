@@ -1,0 +1,19 @@
+<div class="sidebar">
+    <h2 class="sidebar-title">Категории</h2>
+    <ul class="sidebar-list">
+        <li class="sidebar-item"><a href="#" class="sidebar-link" onclick="activateButton(this)">Монстры</a></li>
+        <li class="sidebar-item"><a href="#" class="sidebar-link" onclick="activateButton(this)">Магические предметы</a></li>
+        <li class="sidebar-item"><a href="#" class="sidebar-link" onclick="activateButton(this)">Заклинания</a></li>
+    </ul>
+</div>
+
+
+<script>
+    function activateButton(button) {
+    const allButtons = document.querySelectorAll('.sidebar-link');
+    allButtons.forEach(btn => btn.classList.remove('active'));
+
+    button.classList.add('active');
+    }
+
+</script>

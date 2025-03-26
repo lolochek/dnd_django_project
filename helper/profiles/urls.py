@@ -2,7 +2,7 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from .views import user_registration_view, registration_success, user_login_view, user_logout_view, user_dashboard_view, \
-    delete_profile, edit_profile, all_users, search_users
+    delete_profile, edit_profile, all_users, search_users, show_user_dashboard
 from django.conf import settings
 
 urlpatterns = [
@@ -13,11 +13,11 @@ urlpatterns = [
     path('registration-success/', registration_success, name='registration_success'),
 
     path('edit/', edit_profile, name='edit_profile'),
-
     path('delete/', delete_profile, name='delete_profile'),
 
     path('users/', all_users, name='all_users'),
     path('search/', search_users, name='search_users'),
+    path('user-dashboard/<int:user_id>/', show_user_dashboard, name='show_user_dashboard')
 ]
 
 if settings.DEBUG:

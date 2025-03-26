@@ -3,7 +3,7 @@
 <ul>
     {% for friend in friends %}
         <li>
-            <a href="{% url 'profile' friend.id %}">{{ friend.username }}</a>
+            <a href="{% url 'show_user_dashboard' friend.id %}">{{ friend.username }}</a>
         </li>
     {% empty %}
         <li>У вас пока нет друзей.</li>

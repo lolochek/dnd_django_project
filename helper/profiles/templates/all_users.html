@@ -1,5 +1,10 @@
+{% extends 'base.html' %}
 
-<h2>Все пользователи</h2>
+{% block page_content %}
+
+
+<div class="container">
+    <h2>Все пользователи</h2>
 <ul>
     <br>
     <br>
@@ -9,9 +14,23 @@
     <br>
     {% for user in users %}
         <li>
-            <a href="#">{{ user.username }}</a>
+            <a href="{% url 'show_user_dashboard' user.id%}">{{ user.username }}</a>
             - <a href="#">Добавить в друзья</a>
         </li>
     {% endfor %}
 </ul>
+</div>
 
+<style>
+      .container {
+    max-width: 75%;
+    background-color: #DFDBCF;
+    border: 3px solid #6E1D26;
+    margin: 10% 10% 3% 10%;
+    padding: 10px 5% 60px 5%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+
+}
+</style>
+
+{% endblock %}
