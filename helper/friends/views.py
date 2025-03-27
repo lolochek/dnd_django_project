@@ -4,22 +4,24 @@ from django.contrib import messages
 from .models import FriendRequest, Friendship
 from django.conf import settings
 
+from profiles.models import User
+
 
 @login_required
 def send_friend_request(request, user_id):
-    receiver = get_object_or_404(settings.AUTH_USER_MODEL, id=user_id)
-
-    if request.user == receiver:
-        messages.error(request, "Невозможно отправить запрос самому себе.")
-        return redirect('profile', user_id=user_id)
+    receiver = get_object_or_404(User, id=user_id)
 
     if FriendRequest.objects.filter(sender=request.user, receiver=receiver, accepted=False, declined=False).exists():
         messages.error(request, "Вы уже отправили запрос на добавление в друзья.")
-        return redirect('profile', user_id=user_id)
+        return redirect('show_user_dashboard', user_id=user_id)
+
+    if Friendship.objects.filter(user1=request.user, user2=receiver).exists() or Friendship.objects.filter(user1=receiver, user2=request.user).exists():
+        messages.error(request, "Вы уже друзья.")
+        return redirect('show_user_dashboard', user_id=user_id)
 
     FriendRequest.objects.create(sender=request.user, receiver=receiver)
     messages.success(request, f'Запрос на добавление в друзья отправлен {receiver.username}.')
-    return redirect('profile', user_id=user_id)
+    return redirect('show_user_dashboard', user_id=user_id)
 
 
 @login_required
@@ -39,7 +41,7 @@ def respond_friend_request(request, request_id, action):
 
         messages.success(request, "Вы отклонили запрос на добавление в друзья.")
 
-    return redirect('profile', user_id=friend_request.sender.id)
+    return redirect('show_user_dashboard', user_id=friend_request.sender.id)
 
 @login_required
 def friends_list(request):
@@ -47,8 +49,8 @@ def friends_list(request):
     friends = {friendship.user1 if friendship.user2 == request.user else friendship.user2 for friendship in friendships}
     return render(request, 'friends_list.html', {'friends': friends})
 
-
 @login_required
-def profile_view(request, user_id):
-    user = get_object_or_404(settings.AUTH_USER_MODEL, id=user_id)
-    return render(request, 'profile.html', {'user_dashboard.html': user})
+def friend_requests_list(request):
+
+    friend_requests = FriendRequest.objects.filter(receiver=request.user, accepted=False, declined=False)
+    return render(request, 'friends_requests.html', {'friend_requests': friend_requests})

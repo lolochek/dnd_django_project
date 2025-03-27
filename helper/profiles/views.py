@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import EditProfileForm
 from .models import User
 
+from friends.models import Friendship
 
 # Create your views here.
 
@@ -121,7 +122,15 @@ def search_users(request):
     users = User.objects.filter(username__icontains=query) if query else []
     return render(request, 'search_results.html', {'users': users, 'query': query})
 
+
 @login_required
 def show_user_dashboard(request, user_id):
     user = get_object_or_404(User, id=user_id)
-    return render(request, 'user_dashboard.html', {'user': user})
+
+    if request.user == user:
+        return redirect('dashboard')
+
+    friendships = Friendship.objects.filter(user1=user) | Friendship.objects.filter(user2=user)
+    friends = {friendship.user1 if friendship.user2 == user else friendship.user2 for friendship in friendships}
+
+    return render(request, 'user_dashboard.html', {'user': user, 'friends': friends})

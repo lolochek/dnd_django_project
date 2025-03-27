@@ -5,20 +5,89 @@
 {% include 'sidebar_handbook.html' %}
 
 <div class="content-container">
+    <h1>Справочник</h1>
+    <div id="handbook-content">
 
+
+        <ul>
+            {% for note in notes %}
+            <li>
+                {% if category == 'spells' %}
+                    <a href="{% url 'spell_detail' note.id %}">{{ note.name }}</a>
+                {% elif category == 'monsters' %}
+                    <a href="{% url 'monster_detail' note.id %}">{{ note.name }}</a>
+                {% elif category == 'magic_items' %}
+                    <a href="{% url 'magic_item_detail' note.id %}">{{ note.name }}</a>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 
 <style>
-    .content-container {
-    max-width: 100%;
-    background-color: #DFDBCF;
-    border: 3px solid #6E1D26;
-    margin: 10% 0 2% 20%;
-    padding: 10px 5% 60px 5%;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    h1 {
+        align:center;
+    }
 
-}
+    .content-container {
+        max-width: 75%;
+
+        background-color: #DFDBCF;
+        border: 3px solid #6E1D26;
+        margin: 10% 5% 2% 25%;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .category-section {
+        margin-bottom: 20px; /* Отступ между секциями */
+    }
+
+    .category-section h2 {
+        font-size: 20px; /* Размер заголовка секции */
+        color: #6E1D26; /* Цвет заголовка секции */
+        border-bottom: 2px solid #6E1D26; /* Подчеркивание заголовка */
+        padding-bottom: 5px; /* Отступ снизу */
+    }
+
+    .category-section ul {
+        list-style-type: none; /* Убираем маркеры списка */
+        padding-left: 0; /* Убираем отступ слева */
+    }
+
+    .category-section li {
+        padding: 5px 0; /* Отступ между элементами списка */
+        font-size: 16px; /* Размер текста */
+        color: #333; /* Цвет текста */
+    }
 </style>
+
+
+<script>
+    function activateButton(button, category) {
+        const allButtons = document.querySelectorAll('.sidebar-link');
+        allButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        localStorage.setItem('selectedCategory', category);
+
+        window.location.href = '?category=' + category;
+    }
+
+    function setActiveButton() {
+        const selectedCategory = localStorage.getItem('selectedCategory');
+        if (selectedCategory) {
+            const activeButton = document.querySelector(`.sidebar-link[onclick*="${selectedCategory}"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+        }
+    }
+
+    window.onload = setActiveButton;
+</script>
+
 
 
 {% endblock %}
