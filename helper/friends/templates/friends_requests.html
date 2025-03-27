@@ -2,7 +2,7 @@
 
 {% block page_content %}
 <div class="container">
-    <h2>Ваши запросы на добавление в друзья</h2>
+    <h2>Полученные запросы на добавление в друзья</h2>
     <ul>
         {% for request in friend_requests %}
             <li>
@@ -14,6 +14,20 @@
             <li>Тут пусто :(</li>
         {% endfor %}
     </ul>
+    <hr>
+        <h2>Отправленние запросы на добавление в друзья</h2>
+    <ul>
+        {% for request in friend_requests2 %}
+            <li>
+                {{ request.sender.username }}
+                <a href="{% url 'respond_friend_request' request.id 'accept' %}">Принять</a> |
+                <p>Статус запроса: {{ request.sender.username }}</p>
+            </li>
+        {% empty %}
+            <li>Тут пусто :(</li>
+        {% endfor %}
+    </ul>
+
 </div>
 
 <style>

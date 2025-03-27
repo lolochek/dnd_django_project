@@ -110,11 +110,24 @@ def edit_profile(request):
     return render(request, 'edit_profile.html', {'form': form})
 
 
+from django.db.models import Q
+
 
 @login_required
 def all_users(request):
-    users = User.objects.exclude(id=request.user.id)
-    return render(request, 'all_users.html', {'users': users})
+    friendships = Friendship.objects.filter(user1=request.user) | Friendship.objects.filter(user2=request.user)
+    friends = {friendship.user1 if friendship.user2 == request.user else friendship.user2 for friendship in friendships}
+
+    search_query = request.GET.get('search', '')
+
+    users = User.objects.exclude(
+        Q(id=request.user.id) | Q(is_superuser=True) | Q(is_staff=True)
+    )
+    if search_query:
+        users = users.filter(Q(username__icontains=search_query) | Q(login__icontains=search_query))
+
+    return render(request, 'all_users.html', {'users': users, 'friends': friends, 'search_query': search_query})
+
 
 @login_required
 def search_users(request):

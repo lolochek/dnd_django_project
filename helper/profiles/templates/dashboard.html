@@ -15,14 +15,19 @@
         {% endif %}
     </div>
 
+
+
     <div class="info-section">
         <p><strong>Email:</strong> {{ user.email }}</p>
         <p><strong>Логин:</strong> {{ user.login }}</p>
         <p><strong>Описание профиля:</strong></p>
+         <hr>
         <div class="profile-description">
             {{ user.profile_description }}
         </div>
     </div>
+
+    <hr>
 
     <div class="action-buttons">
         <form action="{% url 'logout' %}" method="post">

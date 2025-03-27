@@ -24,6 +24,15 @@ def send_friend_request(request, user_id):
     return redirect('show_user_dashboard', user_id=user_id)
 
 
+
+@login_required
+def remove_friend(request, user_id):
+    ex_friend = get_object_or_404(User, id=user_id)
+
+
+    messages.success(request, f'Друг успешно удалён {ex_friend.username}.')
+    return redirect('show_user_dashboard', user_id=user_id)
+
 @login_required
 def respond_friend_request(request, request_id, action):
     friend_request = get_object_or_404(FriendRequest, id=request_id, receiver=request.user)
@@ -53,4 +62,6 @@ def friends_list(request):
 def friend_requests_list(request):
 
     friend_requests = FriendRequest.objects.filter(receiver=request.user, accepted=False, declined=False)
-    return render(request, 'friends_requests.html', {'friend_requests': friend_requests})
+    friend_requests2 = FriendRequest.objects.filter(sender=request.user)
+
+    return render(request, 'friends_requests.html', {'friend_requests': friend_requests, 'friend_requests2': friend_requests2})
