@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'articles',
+    'creating_map'
 ]
 
 MIDDLEWARE = [

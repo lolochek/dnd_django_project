@@ -147,6 +147,7 @@ def monster_edit(request, monster_id):
 
 
 
+
 @login_required
 def my_change_requests(request):
     requests = ChangeRequest.objects.filter(user=request.user).order_by('-created_at')

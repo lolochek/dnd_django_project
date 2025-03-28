@@ -15,13 +15,11 @@
         {% endif %}
     </div>
 
-
-
     <div class="info-section">
         <p><strong>Email:</strong> {{ user.email }}</p>
         <p><strong>Логин:</strong> {{ user.login }}</p>
         <p><strong>Описание профиля:</strong></p>
-         <hr>
+        <hr>
         <div class="profile-description">
             {{ user.profile_description }}
         </div>
@@ -29,91 +27,101 @@
 
     <hr>
 
-    <div class="action-buttons">
-        <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Выйти</button>
-        </form>
+    {% if not user.is_staff %}
+        <div class="action-buttons">
+            <div class="button-row">
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Выйти</button>
+                </form>
 
-        <a href="{% url 'edit_profile' %}" class="btn btn-primary">Редактировать профиль</a>
+                <a href="{% url 'edit_profile' %}" class="btn btn-primary">Редактировать профиль</a>
+            </div>
 
-        <form action="{% url 'delete_profile' %}" method="post" class="mt-3">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Удалить профиль</button>
-        </form>
-    </div>
+            <form action="{% url 'delete_profile' %}" method="post" class="mt-3">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Удалить профиль</button>
+            </form>
+        </div>
+    {% endif %}
+
 </div>
 
 <style>
     .profile-container {
-    max-width: 100%;
-    background-color: #DFDBCF;
-    border: 3px solid #6E1D26;
-    margin: 10% 5% 3% 25%;
-    padding: 10px 5% 60px 5%;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        max-width: 100%;
+        background-color: #DFDBCF;
+        border: 3px solid #6E1D26;
+        margin: 10% 5% 3% 25%;
+        padding: 10px 5% 60px 5%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
 
-}
+    h1 {
+        text-align: center;
+        color: #6E1D26;
+        font-family: 'Trebuchet MS', sans-serif;
+        margin-bottom: 10px;
+    }
 
-h1 {
-    text-align: center;
-    color: #6E1D26;
-    font-family: 'Trebuchet MS', sans-serif;
-    margin-bottom: 10px;
-}
+    .avatar-section {
+        margin-bottom: 20px;
+    }
 
-.avatar-section {
-    margin-bottom: 20px;
-}
+    .avatar {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 2px solid #6E1D26; /* Рамка вокруг аватара */
+    }
 
-.avatar {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    border: 2px solid #6E1D26; /* Рамка вокруг аватара */
-}
+    .info-section p {
+        font-size: 1.1em;
+        color: #000;
+        margin: 10px 0;
+    }
 
-.info-section p {
-    font-size: 1.1em;
-    color: #000;
-    margin: 10px 0;
-}
+    .profile-description {
+        background-color: #F9F9F9; /* Светлый фон для описания */
+        border: 1px solid #CCC; /* Лёгкая рамка */
+        padding: 10px;
+        max-height: 4.5em; /* Устанавливаем высоту для трех строк текста */
+        overflow-y: auto; /* Добавляем прокрутку */
+        text-align: left;
+        font-size: 0.9em; /* Чуть меньший размер текста */
+    }
 
-.profile-description {
-    background-color: #F9F9F9; /* Светлый фон для описания */
-    border: 1px solid #CCC; /* Лёгкая рамка */
-    padding: 10px;
-    max-height: 4.5em; /* Устанавливаем высоту для трех строк текста */
-    overflow-y: auto; /* Добавляем прокрутку */
-    text-align: left;
-    font-size: 0.9em; /* Чуть меньший размер текста */
-}
+    .action-buttons {
+        margin-top: 20px;
+    }
 
-.action-buttons {
-    margin-top: 20px;
-}
+    .button-row {
+        display: flex;
+        justify-content: space-between; /* Распределяем кнопки по ширине */
+        margin-bottom: 10px; /* Отступ между рядами кнопок */
+    }
 
-.action-buttons .btn {
-    margin: 5px;
-    padding: 10px 20px;
-    font-size: 1em;
-    border-radius: 5px;
-}
+    .action-buttons .btn {
+        margin: 5px;
+        padding: 10px 20px;
+        font-size: 1em;
+        border-radius: 5px;
+        flex: 1; /* Кнопки занимают равное пространство */
+    }
 
-.btn-danger {
-    background-color: #6E1D26; /* бордовый цвет */
-    border: none;
-}
+    .btn-danger {
+        background-color: #6E1D26; /* бордовый цвет */
+        border: none;
+    }
 
-.btn-primary {
-    background-color: #69816B; /* зелёный тон */
-    border: none;
-}
+    .btn-primary {
+        background-color: #69816B; /* зелёный тон */
+        border: none;
+    }
 
-.btn:hover {
-    opacity: 0.8;
-}
-
+    .btn:hover {
+        opacity: 0.8;
+    }
 </style>
 
 {% endblock %}
