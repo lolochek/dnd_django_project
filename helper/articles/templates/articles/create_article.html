@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_content %}
+
+<div class="container" style="margin: 10% auto; max-width: 75%;">
+    <h2 class="text-center">Создать статью</h2>
+
+    <form method="post" enctype="multipart/form-data" class="mt-5">
+        {% csrf_token %}
+        {{ form.media }}
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="background-color: #69816B;">Создать</button>
+    </form>
+</div>
+
+<style>
+    .container {
+    background-color: #f8f9fa; /* Светлый фон */
+    border: 1px solid #ced4da; /* Рамка */
+    border-radius: 5px; /* Закругленные углы */
+    padding: 20px; /* Отступы внутри контейнера */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Тень */
+}
+
+</style>
+{% endblock %}

@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+<div class="container">
+    <h1 class="article-title">{{ article.title }}</h1>
+    <div class="article-content">
+        <p>{{ article.content|safe }}</p>
+    </div>
+
+    {% if user.is_authenticated %}
+        <div class="comments-section">
+            <h2>Комментарии</h2>
+            <form method="post" class="comment-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn-submit">Оставить комментарий</button>
+            </form>
+        </div>
+    {% else %}
+        <p class="auth-warning">Авторизуйтесь, чтобы оставлять комментарии</p>
+    {% endif %}
+
+    <div class="comments-list">
+        {% for comment in comments %}
+            <div class="comment">
+                <div class="comment-header">
+                    <p><strong>{{ comment.user.username }}</strong></p>
+                    <p class="comment-date"><small>{{ comment.created_at }}</small></p>
+                </div>
+                <p class="comment-content">{{ comment.content }}</p>
+
+                {% for reply in comment.replies.all %}
+                    <div class="comment reply">
+                        <div class="comment-header">
+                            <p><strong>{{ reply.user.username }}</strong></p>
+                            <p class="comment-date"><small>{{ reply.created_at }}</small></p>
+                        </div>
+                        <p class="comment-content">{{ reply.content }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .container {
+        max-width: 75%;
+        margin: 10% auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .article-title {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #6E1D26;
+    }
+
+    .article-content {
+        font-size: 18px;
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+
+    .comments-section {
+        margin-top: 30px;
+    }
+
+    .comment-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .comment-form input,
+    .comment-form textarea {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .comment-form input:focus,
+    .comment-form textarea:focus {
+        border-color: #6E1D26;
+        outline: none;
+    }
+
+    .comment-form button {
+        background-color: #6E1D26;
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .comment-form button:hover {
+        background-color: #9B2D38;
+    }
+
+    .auth-warning {
+        color: #ff3333;
+        font-size: 18px;
+        font-style: italic;
+    }
+
+    .comments-list {
+        margin-top: 30px;
+    }
+
+    .comment {
+        background-color: #fff;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .comment-date {
+        color: #777;
+        font-size: 14px;
+    }
+
+    .comment-content {
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 10px;
+    }
+
+    .comment.reply {
+        margin-left: 40px;
+        border-left: 2px solid #ddd;
+        padding-left: 20px;
+    }
+
+    .btn-submit {
+        background-color: #28a745;
+        color: white;
+        padding: 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        border: none;
+        font-size: 16px;
+    }
+
+    .btn-submit:hover {
+        background-color: #218838;
+    }
+
+</style>
+
+{% endblock %}

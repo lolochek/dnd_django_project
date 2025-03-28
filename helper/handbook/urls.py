@@ -2,7 +2,6 @@ from django.urls import path
 
 from . import api
 from .views import (
-    get_index,
     get_handbook,
     spell_detail,
     monster_detail,
@@ -10,7 +9,6 @@ from .views import (
 )
 
 urlpatterns = [
-    path('main/', get_index, name="get_index"),
     path('', get_handbook, name='get_handbook'),
 
     path('my-requests/', my_change_requests, name='my_change_requests'),

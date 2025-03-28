@@ -41,7 +41,10 @@ INSTALLED_APPS = [
     'miniatures',
     'handbook',
     'profiles',
-    'friends'
+    'friends',
+    'ckeditor',
+    'ckeditor_uploader',
+    'articles',
 ]
 
 MIDDLEWARE = [
@@ -143,3 +146,26 @@ AUTH_USER_MODEL = 'profiles.User'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_URL = '/login/'
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['FontSize'],
+            ['Image', 'Link', 'Unlink'],
+            ['NumberedList', 'BulletedList'],
+            ['RemoveFormat', 'Source'],
+        ],
+        'extraPlugins': ','.join([
+            'uploadimage',
+            'font',
+        ]),
+    }
+}

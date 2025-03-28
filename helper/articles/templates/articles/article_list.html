@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_content %}
+<div class="container">
+    <h2 class="page-title">Все статьи</h2>
+
+    <div class="add-article-button-container">
+        <a href="{% url 'create_article' %}" class="btn-add-article">
+            <i class="bi bi-plus-circle"></i> Добавить статью
+        </a>
+    </div>
+    <br>
+
+    <div class="buttons-container">
+        <div class="search-container">
+            <form method="get" class="search-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Поиск</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="articles-list">
+        {% for article in articles %}
+            <div class="article">
+                <h3><a href="{% url 'article_detail' article.pk %}">{{ article.title }}</a></h3>
+                <p>{{ article.content|safe|truncatewords:20 }}</p>
+                <small>Автор: {{ article.author.username }}</small>
+            </div>
+        {% empty %}
+            <p>Статей не найдено.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .container {
+        max-width: 80%;
+        background-color: #DFDBCF; /* Цвет фона */
+        border: 3px solid #6E1D26; /* Цвет рамки */
+        margin: 10% auto 3% auto; /* Центрирование контейнера */
+        padding: 20px; /* Отступы внутри контейнера */
+        border-radius: 8px; /* Закругленные углы */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Тень */
+    }
+
+    .page-title {
+        text-align: left; /* Выравнивание заголовка влево */
+        color: #6E1D26; /* Цвет заголовка */
+        font-family: 'Trebuchet MS', sans-serif; /* Шрифт */
+        margin-bottom: 20px; /* Отступ снизу */
+    }
+
+    .buttons-container {
+        display: flex;
+        align-items: center; /* Выравнивание по центру по вертикали */
+        margin-bottom: 20px;
+        justify-content: space-between; /* Разделение кнопок по краям */
+    }
+
+    .add-article-button-container {
+        margin-left: auto; /* Сдвигаем кнопку вправо */
+    }
+
+    .btn-add-article {
+        background-color: #6E1D26; /* Цвет кнопки */
+        color: white; /* Цвет текста */
+        padding: 12px 25px; /* Отступы внутри кнопки */
+        font-size: 18px; /* Размер шрифта */
+        border-radius: 5px; /* Закругленные углы */
+        text-decoration: none; /* Убираем подчеркивание */
+        display: flex; /* Для выравнивания иконки и текста */
+        align-items: center; /* Центрирование по вертикали */
+        transition: background-color 0.3s ease, transform 0.2s ease; /* Плавный переход */
+    }
+
+    .btn-add-article i {
+        margin-right: 8px; /* Отступ между иконкой и текстом */
+    }
+
+    .btn-add-article:hover {
+        opacity: 0.8;
+    }
+
+    .search-container {
+        display: flex;
+        gap: 10px; /* Отступ между полем ввода и кнопкой */
+        width: 100%;
+        max-width: 500px; /* Максимальная ширина формы */
+    }
+
+    .search-form input {
+        padding: 10px; /* Отступы внутри поля ввода */
+        font-size: 16px; /* Размер шрифта */
+        border-radius: 5px; /* Закругленные углы */
+        border: 1px solid #ccc; /* Цвет рамки */
+        width: 80%; /* Ширина поля ввода */
+        transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Плавный переход */
+    }
+
+    .search-form input:focus {
+                border-color: #6E1D26; /* Цвет рамки при фокусе */
+        box-shadow: 0 0 5px rgba(110, 29, 38, 0.5); /* Тень при фокусе */
+        outline: none; /* Убираем стандартный контур */
+    }
+
+    .search-form button {
+        padding: 10px 15px; /* Отступы внутри кнопки */
+        font-size: 16px; /* Размер шрифта */
+       background-color: #69816B; /* Цвет кнопки */
+        color: white; /* Цвет текста */
+        border: none; /* Убираем рамку */
+        border-radius: 5px; /* Закругленные углы */
+        cursor: pointer; /* Указатель при наведении */
+        flex-shrink: 0; /* Не сжимать кнопку */
+        transition: background-color 0.3s ease, transform 0.2s ease; /* Плавный переход */
+    }
+
+    .search-form button:hover {
+        opacity: 0.8;
+    }
+
+    .articles-list {
+        margin-top: 30px; /* Отступ сверху */
+    }
+
+    .article {
+        background-color: #fff; /* Цвет фона статьи */
+        padding: 15px; /* Отступы внутри статьи */
+        margin-bottom: 20px; /* Отступ снизу */
+        border-radius: 8px; /* Закругленные углы */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Тень */
+    }
+
+    .article h3 {
+        font-size: 24px; /* Размер заголовка статьи */
+        font-weight: bold; /* Жирный шрифт */
+        color: #6E1D26; /* Цвет заголовка */
+    }
+
+    .article p {
+        font-size: 16px; /* Размер текста */
+        line-height: 1.6; /* Межстрочный интервал */
+        color: #333; /* Цвет текста */
+    }
+
+    .article a {
+        text-decoration: none; /* Убираем подчеркивание */
+        color: #6E1D26; /* Цвет ссылки */
+    }
+
+    .article a:hover {
+        color: #9B2D38; /* Цвет ссылки при наведении */
+    }
+
+    .article small {
+        font-size: 14px; /* Размер текста для автора */
+        color: #777; /* Цвет текста для автора */
+    }
+</style>
+
+<script>
+    document.querySelectorAll('p img').forEach(function(img) {
+        img.style.display = 'none';
+    });
+</script>
+
+{% endblock %}
+

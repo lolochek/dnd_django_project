@@ -26,9 +26,6 @@ def get_handbook(request):
     return render(request, "handbook.html", {'notes': notes, 'category': category})
 
 
-def get_index(request):
-    return render(request, "index.html", {})
-
 
 def spell_detail(request, spell_id):
     spell = get_object_or_404(Spell, id=spell_id)

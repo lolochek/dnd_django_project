@@ -9,7 +9,6 @@
 
     <br>
     <div id="handbook-content">
-
         {% regroup notes by name.0 as grouped_notes %}
         {% for group in grouped_notes %}
             <div class="category-section">
@@ -34,16 +33,18 @@
 
 <style>
     h1 {
+    font-weight: bold;
         text-align: center;
+        color: #6E1D26;
     }
 
     .content-container {
         max-width: 75%;
         background-color: #DFDBCF;
-        border: 3px solid #6E1D26;
+
         margin: auto 5% 2% 25%;
         padding: 20px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+
     }
 
     .category-section {
