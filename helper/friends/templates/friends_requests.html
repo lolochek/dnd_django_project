@@ -3,41 +3,118 @@
 {% block page_content %}
 <div class="container">
     <h2>Полученные запросы на добавление в друзья</h2>
-    <ul>
-        {% for request in friend_requests %}
-            <li>
-                {{ request.sender.username }} 
-                <a href="{% url 'respond_friend_request' request.id 'accept' %}">Принять</a> | 
-                <a href="{% url 'respond_friend_request' request.id 'decline' %}">Отклонить</a>
-            </li>
-        {% empty %}
-            <li>Тут пусто :(</li>
-        {% endfor %}
-    </ul>
+    <div class="request-list">
+        <ul>
+            {% for request in friend_requests %}
+                <li class="request-item">
+                    <span class="username">{{ request.sender.username }}</span>
+                    <div class="request-actions">
+                        <a href="{% url 'respond_friend_request' request.id 'accept' %}" class="btn btn-success">Принять</a>
+                        <a href="{% url 'respond_friend_request' request.id 'decline' %}" class="btn btn-danger">Отклонить</a>
+                    </div>
+                </li>
+            {% empty %}
+                <li class="request-item">Тут пусто :(</li>
+            {% endfor %}
+        </ul>
+    </div>
     <hr>
-        <h2>Отправленние запросы на добавление в друзья</h2>
-    <ul>
-        {% for request in friend_requests2 %}
-            <li>
-                {{ request.sender.username }}
-                <a href="{% url 'respond_friend_request' request.id 'accept' %}">Принять</a> |
-                <p>Статус запроса: {{ request.sender.username }}</p>
-            </li>
-        {% empty %}
-            <li>Тут пусто :(</li>
-        {% endfor %}
-    </ul>
-
+    <h2>Отправленные запросы на добавление в друзья</h2>
+    <div class="request-list">
+        <ul>
+            {% for request in friend_requests2 %}
+                <li class="request-item">
+                    <span class="username"><a class="username" href="{% url 'show_user_dashboard' request.receiver.id %}">{{ request.receiver.username }}</a></span>
+                    <p class="request-status">Статус запроса:
+                        {% if request.accepted %}
+                            Принят
+                        {% elif request.declined %}
+                            Отклонён
+                        {% else %}
+                            Кто?
+                        {% endif %}
+                    </p>
+                </li>
+            {% empty %}
+                <li class="request-item">Тут пусто :(</li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
-
 <style>
     .container {
         max-width: 75%;
         background-color: #DFDBCF;
         border: 3px solid #6E1D26;
-        margin: 10% 10% 3% 10%;
-        padding: 10px 5% 60px 5%;
+        margin: 10% auto 16% auto;
+        padding: 20px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+        color: #6E1D26;
+        margin-bottom: 15px;
+    }
+
+    .request-list {
+        margin-bottom: 20px;
+    }
+
+    .request-item {
+        background-color: #F9F9F9;
+        border: 1px solid #6E1D26;
+        border-radius: 8px;
+        padding: 10px;
+        margin: 10px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .username {
+        font-weight: bold;
+        color: #6E1D26;
+        text-decoration: none;
+
+    }
+
+    .username:hover {
+        opacity: 0.8;
+
+    }
+
+    .request-actions {
+        display: flex;
+        gap: 10px; /* Отступ между кнопками */
+    }
+
+    .btn {
+        padding: 8px 12px;
+        border-radius: 5px;
+        text-decoration: none;
+        color: white;
+        transition: background-color 0.3s;
+    }
+
+    .btn-success {
+        background-color: #28a745; /* Зеленый цвет для кнопки "Принять" */
+    }
+
+    .btn-success:hover {
+        background-color: #218838; /* Темно-зеленый при наведении */
+    }
+
+    .btn-danger {
+        background-color: #dc3545; /* Красный цвет для кнопки "Отклонить" */
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333; /* Темно-красный при наведении */
+    }
+
+    .request-status {
+        color: #555; /* Цвет текста статуса */
+        margin: 0; /* Убираем отступы */
     }
 </style>
 {% endblock %}

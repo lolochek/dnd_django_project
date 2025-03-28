@@ -8,7 +8,35 @@
 </div>
 
 
-<script>
 
+<script>
+    function activateButton(button, category) {
+    const allButtons = document.querySelectorAll('.sidebar-link');
+    allButtons.forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+
+    const currentUrl = 'http://127.0.0.1:8000/handbook/';
+    window.location.href = currentUrl + '?category=' + category; // Редирект на текущий URL с параметром category
+}
+
+function setActiveButton() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedCategory = urlParams.get('category');
+    if (selectedCategory) {
+        const activeButton = document.querySelector(`.sidebar-link[onclick*="${selectedCategory}"]`);
+        if (activeButton) {
+            activeButton.classList.add('active'); 
+        }
+    } else {
+
+        const defaultButton = document.querySelector(`.sidebar-link[onclick*="monsters"]`);
+        if (defaultButton) {
+            defaultButton.classList.add('active');
+        }
+    }
+}
+
+window.onload = setActiveButton;
 
 </script>
+

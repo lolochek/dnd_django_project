@@ -17,7 +17,6 @@ class Spell(models.Model):
     range = models.CharField(max_length=100)
     components = models.CharField(max_length=100)
     duration = models.CharField(max_length=100)
-    distance = models.CharField(max_length=100)
     additional_info = JSONField(blank=True, null=True)
     last_updated = models.DateTimeField(auto_now=True)
 
@@ -35,7 +34,6 @@ class Monster(models.Model):
     speed = models.CharField(max_length=100)
     abilities = models.JSONField()
     additional_info = JSONField(blank=True, null=True)
-    image_url = models.URLField(blank=True, null=True)
     last_updated = models.DateTimeField(auto_now=True)
 
 
@@ -51,7 +49,6 @@ class MagicItem(models.Model):
     rarity = models.CharField(max_length=100)
     effect = models.TextField()
     additional_info = JSONField(blank=True, null=True)
-    image_url = models.URLField(blank=True, null=True)
     last_updated = models.DateTimeField(auto_now=True)
 
     def apply_changes(self, changes):
@@ -70,11 +67,6 @@ class Comment(models.Model):
     content_object = GenericForeignKey('content_type', 'object_id')
 
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
-
-
-
-
-
 
 
 class ChangeRequest(models.Model):

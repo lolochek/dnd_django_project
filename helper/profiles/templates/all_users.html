@@ -12,6 +12,14 @@
     <button type="button" class="btn btn-secondary mt-2" id="clear-button" onclick="clearSearch()">Очистить</button>
 </form>
 
+    {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li style="">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
     <div class="user-cards">
         {% for user in users %}
             <div class="user-card">
@@ -31,16 +39,30 @@
                         {{ user.profile_description|truncatewords:20 }}
                     </p>
 
-                    {% if user in friends %}
-                        <form action="{% url 'delete_profile' %}" method="post" class="mt-3">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Удалить из друзей</button>
-                        </form>
+                    {% if request.user.is_staff %}
+                        {% if user.is_active %}
+                            <form action="{% url 'change_user_activity' user.id 0 %}" method="post" class="mt-3">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Заблокировать пользователя</button>
+                            </form>
+                        {% else %}
+                            <form action="{% url 'change_user_activity' user.id 1 %}" method="post" class="mt-3">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Разблокировать пользователя</button>
+                            </form>
+                        {% endif %}
                     {% else %}
-                        <form action="{% url 'send_friend_request' user.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-primary">Добавить в друзья</button>
-                        </form>
+                        {% if user in friends %}
+                            <form action="{% url 'delete_profile' %}" method="post" class="mt-3">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Удалить из друзей</button>
+                            </form>
+                        {% else %}
+                            <form action="{% url 'send_friend_request' user.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Добавить в друзья</button>
+                            </form>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>
@@ -124,17 +146,17 @@
     }
 
     .user-description {
-        color: #555; /* Цвет текста описания */
+        color: #555;
         font-size: 14px;
                 margin: 10px 0;
-        max-height: 60px; /* Ограничиваем высоту описания */
-        overflow: hidden; /* Скрываем переполнение */
-        text-overflow: ellipsis; /* Добавляем многоточие, если текст длиннее */
+        max-height: 60px;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .user-info a {
         color: #6E1D26;
-        text-decoration: none; /* Убираем подчеркивание */
+        text-decoration: none;
     }
 
     .user-info a:hover {

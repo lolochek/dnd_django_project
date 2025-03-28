@@ -1,3 +1,4 @@
+from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -56,6 +57,10 @@ def user_login_view(request):
 
             user = authenticate(request, email=email, password=password)
             if user is not None:
+                if not user.is_active:
+                    messages.error(request, 'Ваш аккаунт заблокирован. Чао')
+                    return render(request, 'login.html')
+
                 login(request, user)
                 return redirect('dashboard')
             else:
@@ -147,3 +152,15 @@ def show_user_dashboard(request, user_id):
     friends = {friendship.user1 if friendship.user2 == user else friendship.user2 for friendship in friendships}
 
     return render(request, 'user_dashboard.html', {'user': user, 'friends': friends})
+
+
+@staff_member_required
+def change_user_activity(request, user_id, is_active):
+    user = get_object_or_404(User, id=user_id)
+
+    user.is_active = bool(is_active)
+    user.save()
+
+    messages.success(request,f"Уровень доступа пользователя '{user.username}' изменен на {'активен' if user.is_active else 'неактивен'}.")
+
+    return redirect(all_users)
