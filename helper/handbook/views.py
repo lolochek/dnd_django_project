@@ -23,7 +23,7 @@ def get_handbook(request):
     else:
         notes = Monster.objects.all().order_by('name')
 
-    return render(request, "handbook.html", {'notes': notes, 'category': category})
+    return render(request, "handbook1.html", {'notes': notes, 'category': category})
 
 
 
@@ -43,7 +43,7 @@ def spell_detail(request, spell_id):
 
 def monster_list(request):
     monsters = Monster.objects.all()
-    return render(request, "handbook.html", {'monsters': monsters})
+    return render(request, "handbook1.html", {'monsters': monsters})
 
 
 def monster_detail(request, monster_id):
@@ -69,7 +69,7 @@ def monster_detail(request, monster_id):
             comment.save()
             return redirect('monster_detail', monster_id=monster.id)
 
-    return render(request, 'monster_detail.html', {
+    return render(request, 'monster_detail1.html', {
         'monster': monster,
         'comments': comments,
         'form': form
@@ -94,10 +94,22 @@ def magic_item_detail(request, item_id):
 
     return render(request, 'magic_item_detail.html', {'magic_item': magic_item, 'comments': comments})
 
+
 @login_required
-def add_comment(request, monster_id):
-    monster = get_object_or_404(Monster, id=monster_id)
-    monster_content_type = ContentType.objects.get_for_model(Monster)
+def add_comment(request, model_name, object_id):
+    if model_name == 'monster':
+        model_class = Monster
+    elif model_name == 'spell':
+        model_class = Spell
+    elif model_name == 'magic_item':
+        model_class = MagicItem
+    else:
+        print('чё')
+
+    obj = get_object_or_404(model_class, id=object_id)
+
+    content_type = ContentType.objects.get_for_model(model_class)
+
     parent_id = request.POST.get("parent_id")
     parent_comment = Comment.objects.filter(id=parent_id).first() if parent_id else None
 
@@ -106,13 +118,23 @@ def add_comment(request, monster_id):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.user = request.user
-            comment.content_type = monster_content_type
-            comment.object_id = monster.id
+            comment.content_type = content_type
+            comment.object_id = obj.id
             comment.parent = parent_comment
             comment.save()
-            return redirect('monster_detail', monster_id=monster.id)
+            if model_name == 'monster':
+                return redirect('monster_detail', monster_id=obj.id)
+            elif model_name == 'spell':
+                return redirect('spell_detail', spell_id=obj.id)
+            elif model_name == 'magic_item':
+                return redirect('magic_item_detail', spell_id=obj.id)
 
-    return redirect('monster_detail', monster_id=monster.id)
+    if model_name == 'monster':
+        return redirect('monster_detail', monster_id=obj.id)
+    elif model_name == 'spell':
+        return redirect('spell_detail', spell_id=obj.id)
+    elif model_name == 'magic_item':
+        return redirect('magic_item_detail', spell_id=obj.id)
 
 
 @login_required

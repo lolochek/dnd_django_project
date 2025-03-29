@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+
+{% include 'sidebar_handbook.html' %}
+
+<div class="content-container">
+    <a href="{% url 'spell_edit' spell.id %}" class="btn-edit" title="Редактировать">
+        <i class="bi bi-pencil-square"></i>
+    </a>
+    <h1>{{ spell.name }}</h1>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li style="color: red;">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <em class="last-upd">Последнее изменение: {{ spell.last_updated }}</em>
+
+    <div class="spell-detail">
+        <div class="spell-info">
+            <p><strong>Описание:</strong> {{ spell.description }}</p>
+            <p><strong>Уровень:</strong> {{ spell.level }}</p>
+            <p><strong>Класс персонажа:</strong> {{ spell.character_class }}</p>
+            <p><strong>Школа:</strong> {{ spell.school }}</p>
+            <p><strong>Время накладывания:</strong> {{ spell.casting_time }}</p>
+            <p><strong>Дальность:</strong> {{ spell.range }}</p>
+            <p><strong>Компоненты:</strong> {{ spell.components }}</p>
+            <p><strong>Длительность:</strong> {{ spell.duration }}</p>
+        </div>
+    </div>
+
+    {% if user.is_authenticated %}
+        <div class="comments-section">
+            <h2>Комментарии</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn-submit">Оставить комментарий</button>
+            </form>
+        </div>
+    {% else %}
+        <hr>
+        <h5><i>Авторизуйтесь, чтобы оставлять комментарии</i></h5>
+        <hr>
+    {% endif %}
+
+    <div class="comments-list">
+        {% for comment in comments %}
+        <div class="comment">
+            <div class="comment-header">
+                <a href="{% url 'show_user_dashboard' comment.user.id %}">
+                    {% if comment.user.avatar %}
+                        <img src="{{ comment.user.avatar.url }}" alt="Аватар" class="comment-avatar">
+                    {% else %}
+                        <div class="comment-avatar-placeholder">
+                            <i class="bi bi-person"></i>
+                        </div>
+                    {% endif %}
+                    <strong>{{ comment.user.username }}</strong>
+                </a>
+                <span class="comment-meta">@{{ comment.user.login }}</span>
+            </div>
+            <p class="comment-text">{{ comment.content }}</p>
+            <small class="comment-time">{{ comment.created_at }}</small>
+
+            {% if user.is_authenticated %}
+            <a href="javascript:void(0);" class="reply-link" onclick="toggleReplyForm('{{ comment.id }}')">Ответить</a>
+            {% endif %}
+
+            <div class="reply-form" id="reply-form-{{ comment.id }}" style="display: none;">
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="parent_id" value="{{ comment.id }}">
+                    {{ form.as_p }}
+                    <button type="submit" class="btn-submit">Ответить</button>
+                </form>
+            </div>
+
+            {% for reply in comment.replies.all %}
+            <div class="comment reply">
+                <div class="comment-header">
+                    <a href="{% url 'show_user_dashboard' reply.user.id %}">
+                        {% if reply.user.avatar %}
+                            <img src="{{ reply.user.avatar.url }}" alt="Аватар" class="comment-avatar">
+                        {% else %}
+                            <div class="comment-avatar-placeholder">
+                                <i class="bi bi-person"></i>
+                            </div>
+                        {% endif %}
+                        <strong>{{ reply.user.username }}</strong>
+                    </a>
+                    <span class="comment-meta">@{{ reply.user.login }}</span>
+                </div>
+                <p class="comment-text">{{ reply.content }}</p>
+                <small class="comment-time">{{ reply.created_at }}</small>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .content-container {
+        max-width: 70%;
+        background-color: #DFDBCF;
+        border: 3px solid #6E1D26;
+        margin: 10% auto 5% 25%;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+
+        position: relative;
+    }
+
+    .monster-detail {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .monster-info {
+        flex-grow: 1;
+    }
+
+    .monster-info h3 {
+        color: #6E1D26;
+        margin-top: 15px;
+    }
+
+    .abilities ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    .abilities li {
+        margin-bottom: 10px;
+    }
+
+    .comments-section {
+        margin-top: 40px;
+        padding: 20px;
+        background: #F9F9F9;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .comments-list {
+        margin-top: 20px;
+    }
+
+    .comment {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 10px;
+    }
+
+    .reply {
+        margin-left: 40px;
+        border-left: 2px solid #6E1D26;
+        padding-left: 10px;
+        margin-top: 10px;
+    }
+
+    .comment-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .comment-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+
+    .comment-avatar-placeholder {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 2px solid #6E1D26;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #F9F9F9;
+        font-size: 20px;
+        color: #6E1D26;
+    }
+
+    .comment-text {
+        margin: 5px 0;
+    }
+
+    .reply-link {
+        color: #6E1D26;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .btn-submit {
+        background-color: #6E1D26;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-submit:hover {
+        background-color: #9B2D38;
+    }
+
+    .btn-edit {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        color: #6E1D26;
+        cursor: pointer;
+    }
+
+    .btn-edit:hover {
+        color: #9B2D38;
+    }
+
+    .last-upd {
+        display: block;
+        font-size: 16px;
+        margin-top: 0px;
+        margin-bottom: 10px;
+        color: #6E1D26;
+    }
+
+    .last-upd span {
+        color: #A52A2A;
+        font-weight: bold;
+    }
+</style>
+
+<script>
+    function toggleReplyForm(commentId) {
+        let form = document.getElementById("reply-form-" + commentId);
+        form.style.display = form.style.display === "none" ? "block" : "none";
+    }
+</script>
+
+{% endblock %}

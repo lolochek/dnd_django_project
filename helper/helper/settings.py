@@ -40,12 +40,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'miniatures',
     'handbook',
+    'handboook',
     'profiles',
     'friends',
     'ckeditor',
     'ckeditor_uploader',
-    'articles',
-    'creating_map'
+    'articles'
 ]
 
 MIDDLEWARE = [

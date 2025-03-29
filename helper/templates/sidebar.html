@@ -21,15 +21,6 @@
                 <li><a href="{% url 'all_users' %}" class="dropdown-link">Пользователи</a></li>
             </ul>
         </li>
-        <li class="sidebar-item">
-            <button class="sidebar-link" onclick="toggleDropdown('dropdown2')">
-                Карточки персонажей <span class="arrow">&#9662;</span>
-            </button>
-            <ul id="dropdown2" class="dropdown-list">
-                <li><a href="#" class="dropdown-link">Галерея карточек</a></li>
-                <li><a href="#" class="dropdown-link">Ваши работы</a></li>
-            </ul>
-        </li>
         <li class="sidebar-item"><a href="{% url 'friend_requests_list' %}" class="sidebar-link">Заявки в друзья</a></li>
         <li class="sidebar-item"><a href="{% url 'my_change_requests' %}" class="sidebar-link">Заявки на изменение записей</a></li>
         {% endif %}

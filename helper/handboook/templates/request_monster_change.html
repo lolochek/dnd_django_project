@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+<div class="container">
+    <h1 class="page-title">Изменить информацию о монстре: {{ monster.name }}</h1>
+
+    <form method="post" class="change-form">
+        {% csrf_token %}
+        <div class="form-fields">
+            {{ form.as_p }}
+        </div>
+
+        <button type="submit" class="btn-submit">Отправить запрос на изменение</button>
+    </form>
+
+    <div class="back-link">
+        <a href="{% url 'monster_detail' monster.id %}" class="btn-back">Назад к подробной информации о монстре</a>
+    </div>
+</div>
+
+<style>
+    .container {
+        max-width: 80%;
+        background-color: #DFDBCF;
+        border: 3px solid #6E1D26;
+        margin: 10% auto;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .page-title {
+        color: #6E1D26;
+        font-family: 'Trebuchet MS', sans-serif;
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .change-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .form-fields {
+        margin-bottom: 20px;
+    }
+
+    .form-fields p {
+        margin-bottom: 15px;
+    }
+
+    .btn-submit {
+        background-color: #6E1D26;
+        color: white;
+        font-size: 16px;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        text-align: center;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+        border: none;
+    }
+
+    .btn-submit:hover {
+        background-color: #69816B;
+    }
+
+    .back-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn-back {
+        background-color: #69816B;
+        color: white;
+        font-size: 16px;
+        padding: 8px 16px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        display: inline-block;
+    }
+
+    .btn-back:hover {
+        background-color: #6E1D26;
+    }
+
+    .form-fields input,
+    .form-fields select,
+    .form-fields textarea {
+        padding: 10px;
+        border: 1px solid #6E1D26;
+        border-radius: 5px;
+        width: 100%;
+        font-size: 16px;
+        margin-top: 5px;
+        background-color: #fff;
+    }
+
+    .form-fields input:focus,
+    .form-fields select:focus,
+    .form-fields textarea:focus {
+        outline: none;
+        border-color: #69816B;
+    }
+</style>
+
+{% endblock %}

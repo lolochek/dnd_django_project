@@ -17,11 +17,11 @@
             Я header
         </header>
         <nav class="navbar">
-            <a href="#"><i class="bi bi-house"></i> Главная</a>
+            <a href="{% url 'home' %}"><i class="bi bi-house"></i> Главная</a>
             <a href="{% url 'get_handbook' %}"><i class="bi bi-book"></i> Справочник</a>
             <a href="{% url 'create_miniature' %}"><i class="bi bi-image"></i> Миниатюрки</a>
             <a href="{% url 'article_list' %}"><i class="bi bi-newspaper"></i> Статьи</a>
-            <a href="#"><i class="bi bi-info-circle"></i> О нас</a>
+            <a href="{% url 'about' %}"><i class="bi bi-info-circle"></i> О нас</a>
             <a href="{% url 'dashboard' %}"><i class="bi bi-person"></i> Профиль</a>
         </nav>
 

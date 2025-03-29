@@ -11,7 +11,9 @@
         {% if user.avatar %}
             <img src="{{ user.avatar.url }}" alt="Аватар" class="avatar">
         {% else %}
-            <p>Аватар не загружен</p>
+            <div class="avatar">
+                <i class="bi bi-person"></i>
+            </div>
         {% endif %}
     </div>
 
@@ -43,6 +45,11 @@
                 <button type="submit" class="btn btn-danger">Удалить профиль</button>
             </form>
         </div>
+    {% else %}
+        <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Выйти</button>
+        </form>
     {% endif %}
 
 </div>
@@ -121,6 +128,24 @@
 
     .btn:hover {
         opacity: 0.8;
+    }
+
+    .avatar-section {
+        margin-bottom: 20px;
+        text-align: center; /* Центрируем аватар */
+    }
+
+    .avatar {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 2px solid #6E1D26;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #F9F9F9; /* Цвет фона для иконки */
+        font-size: 100px; /* Размер иконки */
+        color: #6E1D26; /* Цвет иконки */
     }
 </style>
 

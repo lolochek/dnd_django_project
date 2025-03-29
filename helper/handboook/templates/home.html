@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% block page_content %}
+
+<div class="home">
+    <h1>RollKeeper</h1>
+    <h3>Твой цифровой гримуар для приключений</h3>
+    <p>Персонажи, заклинания, монстры, предметы и даже миниатюры — всё в одном месте.</p>
+
+    <div class="section">
+        <h2>📰 Последние статьи</h2>
+        <ul>
+            {% for post in latest_posts %}
+                <li><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a> <small>({{ post.created_at|date:"d.m.Y" }})</small></li>
+            {% empty %}
+                <p>Нет свежих статей.</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>📜 Обновления справочника</h2>
+        <ul>
+            {% for note in latest_updates %}
+                <li>{{ note.type }}:
+                <strong>{{ note.obj.name }}</strong> — обновлено {{ note.obj.last_updated|date:"d.m.Y H:i" }}</li>
+            {% empty %}
+                <p>Пока нет обновлений.</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>🖨️ Генератор миниатюр</h2>
+        <p>Загружай изображения, выбирай формат и размер, а приложение само подготовит PDF для печати. Миниатюры персонажей, стен, декораций и даже врагов — всё под рукой!</p>
+    </div>
+</div>
+
+<style>
+    .home {
+        max-width: 80%; /* Сделаем более гибким */
+        margin: 10% auto 3% auto;
+        text-align: center;
+        padding: 20px;
+        border: 2px solid #6E1D26; /* Тёмнокрасная граница */
+    }
+
+    h1 {
+        font-size: 48px;
+        color: #6E1D26;
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        font-size: 24px;
+        color: #9B2D38;
+        margin-bottom: 30px;
+    }
+
+    h2 {
+        margin-top: 40px;
+        color: #9B2D38;
+        font-size: 26px;
+    }
+
+    .section {
+        margin-top: 30px;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        font-size: 16px;
+        color: #4A4A4A;
+    }
+
+    li {
+        margin: 10px 0;
+        font-size: 18px;
+    }
+
+    li a {
+        color: #9B2D38;
+        text-decoration: none;
+    }
+
+    li a:hover {
+        text-decoration: underline;
+    }
+
+    small {
+        font-size: 12px;
+        color: #7D7D7D;
+    }
+
+    p {
+        font-size: 16px;
+        color: #4A4A4A;
+    }
+
+    /* Адаптивный дизайн */
+    @media (max-width: 768px) {
+        .home {
+            max-width: 90%;
+            padding: 15px;
+        }
+
+        h1 {
+            font-size: 36px;
+        }
+
+        h3 {
+            font-size: 20px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 28px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        ul {
+            font-size: 14px;
+        }
+
+        li {
+            font-size: 16px;
+        }
+
+        p {
+            font-size: 14px;
+        }
+    }
+
+</style>
+
+{% endblock %}

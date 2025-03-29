@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_content %}
+<div class="container">
+    <h2 class="page-title">Мои заявки на изменение</h2>
+    <hr>
+
+    <div class="requests-list">
+        {% for req in requests %}
+            <div class="request-item">
+                <div class="request-header">
+                    <strong>{{ req.content_object.name }}</strong> —
+                    Статус: {{ req.get_status_display }} —
+                    {{ req.created_at }}
+                </div>
+
+                <div class="request-changes">
+                    <h4>Исправленная запись:</h4>
+                    <ul>
+                        {% for key, value in req.changes.items %}
+                            <li class="change-item">
+                                <strong>{{ key }}:</strong>
+                                <span class="change-value">{{ value }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <hr>
+            </div>
+        {% empty %}
+            <p class="no-requests">Вы ещё не отправляли заявки.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .container {
+        max-width: 80%;
+        background-color: #DFDBCF;
+        border: 3px solid #6E1D26;
+        margin: 10% auto 3% auto;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .page-title {
+        text-align: left;
+        color: #6E1D26;
+        font-family: 'Trebuchet MS', sans-serif;
+        margin-bottom: 20px;
+    }
+
+    .requests-list {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    .request-item {
+        margin-bottom: 30px;
+    }
+
+    .request-header {
+        font-size: 1.1em;
+        color: #6E1D26;
+        font-weight: bold;
+    }
+
+    .request-changes {
+        margin-top: 10px;
+        padding-left: 20px;
+    }
+
+    .change-item {
+        margin-bottom: 8px;
+    }
+
+    .change-value {
+        color: green;
+    }
+
+    .no-requests {
+        text-align: center;
+        color: #777;
+        font-style: italic;
+    }
+</style>
+
+<script>
+    document.querySelectorAll('p img').forEach(function(img) {
+        img.style.display = 'none';
+    });
+</script>
+
+{% endblock %}
