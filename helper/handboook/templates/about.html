@@ -1,6 +1,21 @@
 {% extends 'base.html' %}
 {% block page_content %}
 
-<img style="align: center;" src="https://icdn.lenta.ru/images/2024/11/26/18/20241126182050071/square_1280_c423d08313a760f877d49f7cfb080b24.jpg">
+<div class="image-container">
+    <img src="https://icdn.lenta.ru/images/2024/11/26/18/20241126182050071/square_1280_c423d08313a760f877d49f7cfb080b24.jpg" alt="Изображение" class="centered-image">
+</div>
+
+<style>
+    .image-container {
+        text-align: center; /* Центрируем содержимое контейнера */
+        margin: 12% 0 4% 0; /* Отступ сверху и снизу */
+    }
+
+    .centered-image {
+        max-width: 30%; /* Уменьшаем размер изображения до 80% от ширины контейнера */
+        height: 60%; /* Сохраняем пропорции изображения */
+        border-radius: 8px; /* Добавляем округление углов (по желанию) */
+    }
+</style>
 
 {% endblock %}

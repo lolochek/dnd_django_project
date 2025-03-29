@@ -21,7 +21,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from handboook.views import home
-
 from handboook.views import about
 
 urlpatterns = [
@@ -29,10 +28,10 @@ urlpatterns = [
     path('miniatures/', include('miniatures.urls')),
     path('handbook/', include('handboook.urls')),
     path('friends/', include('friends.urls')),
-    path('', include('profiles.urls')),
+    path('profiles/', include('profiles.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('articles/', include('articles.urls')),
-    path('home/', home, name='home'),
+    path('', home, name='home'),
     path('about/', about, name='about'),
 ]
 
